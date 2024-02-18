@@ -1,0 +1,110 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
+import numpy as np
+import seaborn as sns
+cust=pd.read_csv("customer_churn.csv")Removing missing values
+cust.dropna(inplace = True)
+#Remove customer IDs from the data set
+df2 = cust.iloc[:,1:]
+#Convertin the predictor variable in a binary numeric variable
+df2['Churn'].replace(to_replace='Yes', value=1, inplace=True)
+df2['Churn'].replace(to_replace='No',  value=0, inplace=True)
+
+#Let's convert all the categorical variables into dummy variables
+df_dummies = pd.get_dummies(df2)
+df_dummies.head()
+y = df_dummies['Churn'].values
+X = df_dummies.drop(columns = ['Churn'])
+
+# Scaling all the variables to a range of 0 to 1
+from sklearn.preprocessing import MinMaxScaler
+features = X.columns.values
+scaler = MinMaxScaler(feature_range = (0,1))
+scaler.fit(X)
+X = pd.DataFrame(scaler.transform(X))
+X.columns = features
+print(X)from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+result = model.fit(X_train, y_train)from sklearn import metrics
+prediction_test = model.predict(X_test)
+# Print the prediction accuracy
+print (metrics.accuracy_score(y_test, prediction_test))from sklearn.ensemble import RandomForestClassifier
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=101)
+model_rf = RandomForestClassifier(n_estimators=1000 , oob_score = True, n_jobs = -1,
+                                  random_state =50, max_features = "auto",
+                                  max_leaf_nodes = 30)
+model_rf.fit(X_train, y_train)
+
+# Make predictions
+prediction_test = model_rf.predict(X_test)
+print (metrics.accuracy_score(y_test, prediction_test))from sklearn.svm import SVC
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+
+# Placeholder function to generate dummy data with 45 features
+def preprocess_input(input_data):
+    # For demonstration purposes, creating a NumPy array with 45 zeros
+    # Replace this with actual preprocessing steps or use your preprocessing function
+    # Ensure that the processed input matches the same format as the training data
+
+    # Example: Create an array with 45 features (zeros for demonstration)
+    num_features = 45
+    processed_data = np.zeros((len(input_data), num_features))
+
+    return processed_data
+
+# Function to predict churn using the SVM model
+def predict_churn_rf(input_data):
+    # Preprocess input data
+    preprocessed_input = preprocess_input(input_data)
+
+    # Assuming 'model_svm' is your trained SVM model
+    # Make predictions using the SVM model
+    predictions = model_rf.predict(preprocessed_input)
+
+    return predictions
+
+# Take user input from the console
+def get_user_input():
+    customer_id=input("Enter Customer ID:")
+    tenure = int(input("Enter tenure: "))
+    internet_service = input("Enter Internet Service (DSL/Fiber optic/Other): ")
+    online_security = input("Enter Online Security (Yes/No/Other): ")
+    tech_support = input("Enter Tech Support (Yes/No/Other): ")
+    contract = input("Enter Contract (Month-to-month/One year/Two year): ")
+    monthly_charges = float(input("Enter Monthly Charges: "))
+
+    return customer_id,[[tenure, internet_service, online_security, tech_support, contract, monthly_charges]]
+
+# Example: Take user input and perform prediction
+customer_id,user_input_data = get_user_input()
+predicted_result = predict_churn_rf(user_input_data)
+
+# Print the prediction result
+if predicted_result == 1:
+     print("The user is predicted to churn.")
+else:
+     print("The user is predicted to stay.")
+
+def collect_feedback():
+    print("We value your feedback! Please take a moment to share your thoughts.")
+    print("1. How likely are you to recommend our service? (Scale: 1-10)")
+    rating = int(input("Enter your rating: "))
+
+    if rating >= 7:
+        print("Thank you for your positive feedback! We appreciate it.")
+        # You might log this feedback for further analysis
+
+        # You can also perform actions based on positive feedback like offering a discount, etc.
+        # For instance, if rating >= 7, you might offer a discount code
+    else:
+        print("We're sorry to hear that. Please let us know how we can improve.Kinldy contact with our team !!!!")
+        # You might provide a follow-up email or contact option for further communication
+
+# predicted_result == 1 implies predicted churn
+if predicted_result == 1:
+    # Collect feedback from customers who are predicted to churn
+    collect_feedback()
+this code gives the output as the customer will stay regardless of input given how should i modify code and what should be the input given. give sample input

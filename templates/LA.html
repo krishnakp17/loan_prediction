@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            background: url('static/approval.jpg') center/cover no-repeat;
+        }
+
+        .bg-text {
+            text-align: center;
+            color: #FFFFFF;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+    <title>Loan Approval</title>
+</head>
+<body>
+    <div class="bg-text">
+        <div class="col-md-6 my-2 d-flex align-items-end justify-content-around">
+            <a href="/predict">
+                <button type="submit" class="btn btn-danger button">Back</button>
+            </a>
+        </div>
+        <h1>LOAN STATUS</h1>
+        <p>You will get the approval from the bank.</p>
+        <div>
+            <form action="/print_details" method="post">
+        <input type="hidden" name="details" value="{{ details }}">
+        <button type="submit"style="background-color:#c82333 ; padding: 10px 20px;border-radius: 5px;color: #fff;font-size: 1rem">Print Details</button>
+         </div>
+         </form>
+    </div>
+    </script>
+</body>
+</html>
+
+

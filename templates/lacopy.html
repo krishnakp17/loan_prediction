@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Approved</title>
+</head>
+<body>
+    <h1>Congratulations! Your Loan is Approved</h1>
+    <ul>
+        <li>Applicant Income: {{ details['applicant_inc'] }}</li>
+        <li>Co-applicant Income: {{ details['co_applicant_inc'] }}</li>
+        <li>Loan Amount: {{ details['loan_amount'] }}</li>
+        <li>Loan Amount Term: {{ details['loan_amount_term'] }}</li>
+        <li>Credit History: {{ details['credit_history'] }}</li>
+        <li>Gender: {{ details['gender'] }}</li>
+        <li>Married: {{ details['married'] }}</li>
+        <li>Dependents: {{ details['dependents'] }}</li>
+        <li>Education: {{ details['education'] }}</li>
+        <li>Employed: {{ details['employed'] }}</li>
+        <li>Property Area: {{ details['property_area'] }}</li>
+    </ul>
+    <form action="/print_details" method="post">
+        <input type="hidden" name="details" value="{{ details }}">
+        <button type="submit">Print Details</button>
+    </form>
+</body>
+</html>
